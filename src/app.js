@@ -22,7 +22,7 @@ import __dirname from './utils.js';
 const app = express();
 //Defino que front puede entrar a mi servidor mediante CORS
 app.use(cors({
-  origin: 'http://127.0.0.1:5500'
+  origin: 'http://localhost:5173'
 }));
 const PORT = config.app.PORT || 8080;
 const server = app.listen(PORT, () => console.log(`Listening on ${PORT}`));

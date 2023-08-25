@@ -5,7 +5,8 @@ import usersController from "../controllers/users.controller.js";
 const router = Router();
 
 router.get('/', usersController.getUsers);
-router.get('/:uId', usersController.getUserById)
+router.post('/', usersController.addUsers)
+router.get('/:uId', usersController.getUserById);
 router.put('/premium/:uId', passportCall('jwt', { strategyType: 'jwt', sessions: false }), authRoles('admin'), usersController.changeUserRole);
 router.delete('/:uId', passportCall('jwt', { strategyType: 'jwt', sessions: false }), authRoles(["admin"]), usersController.deleteUser);
 

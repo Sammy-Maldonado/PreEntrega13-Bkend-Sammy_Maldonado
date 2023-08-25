@@ -24,6 +24,18 @@ const getUserById = async (req, res) => {
   }
 }
 
+const addUsers = async (req, res) => {
+  try {
+    const { name, email, role } = req.body;
+    const user = req.body;
+
+    const newUser = await usersService.createUser(user);
+    res.status(200).send({ status: "success", cart: newUser });
+  } catch (error) {
+    res.status(500).send({ status: "error", error: error.message });
+  }
+}
+
 const changeUserRole = async (req, res) => {
   try {
     const userId = req.params.uId;
@@ -72,6 +84,7 @@ const deleteUser = async (req, res) => {
 export default {
   getUsers,
   getUserById,
+  addUsers,
   changeUserRole,
   deleteUser
 }

@@ -30,9 +30,30 @@ const addUsers = async (req, res) => {
     const user = req.body;
 
     const newUser = await usersService.createUser(user);
-    res.status(200).send({ status: "success", cart: newUser });
+    res.status(200).send({ status: "success", payload: newUser });
   } catch (error) {
-    res.status(500).send({ status: "error", error: error.message });
+    res.status(400).send({ status: "error", error: error.message });
+  }
+}
+
+const updateUser = async (req, res) => {
+  try {
+    const userId = req.params.pId;
+    const userToUpdate = req.body;
+
+    //Verificando que el usuario exista en la base de datos
+    const userExists = await usersService.getUserById(userId);
+    if (!userExists) {
+      return res.status(404).send({ status: "error", message: "Usuario no encontrado, por favor, ingrese una ID válida" });
+    }
+
+    const result = await usersService.updateUser(userId, userToUpdate)
+    const newUser = await usersService.getUserById(userId)
+    console.log(result);
+    res.send({ status: "success", message: "Usuario actualizado con éxito", payload: newUser})
+  } catch (error) {
+    console.log(error);
+    res.status(400).send('Usuario no encontrado')
   }
 }
 
@@ -85,6 +106,7 @@ export default {
   getUsers,
   getUserById,
   addUsers,
+  updateUser,
   changeUserRole,
   deleteUser
 }

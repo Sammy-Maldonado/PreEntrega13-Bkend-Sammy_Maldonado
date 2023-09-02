@@ -25,10 +25,6 @@ export default class UsersManager {
     return userModel.updateOne({email}, {$set:{password:newHashedPassword}})
   }
 
-  updateProduct = (productId, productToUpdate) => {
-    return productsModel.updateOne({ _id: productId }, { $set: productToUpdate });
-  };
-
   deleteUser = (id) => {
     return userModel.findByIdAndDelete(id);
   }

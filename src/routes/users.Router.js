@@ -7,6 +7,7 @@ const router = Router();
 router.get('/', usersController.getUsers);
 router.post('/', usersController.addUsers)
 router.get('/:uId', usersController.getUserById);
+router.put('/:uId', usersController.updateUser);
 router.put('/premium/:uId', passportCall('jwt', { strategyType: 'jwt', sessions: false }), authRoles('admin'), usersController.changeUserRole);
 router.delete('/:uId', passportCall('jwt', { strategyType: 'jwt', sessions: false }), authRoles(["admin"]), usersController.deleteUser);
 

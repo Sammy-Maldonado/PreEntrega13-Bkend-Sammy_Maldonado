@@ -97,5 +97,26 @@ describe('Testing integrador de e-commerce Programa-T', () => {
       const {_body} = await requester.get('/api/sessions/current').set('Cookie',[`${cookie.name}=${cookie.value}`]);
       expect(_body).to.have.property('payload')
     })
+
+    it('El Endpoint POST /api/product/withImage debe poder crear un producto usando multer y cargar el archivo en el server', async function () {
+      const mockProduct = {
+        title:"Shens",
+        description:"shensito de redit",
+        price: 8000,
+        code: "99",
+        stock: 1,
+        category: "avatar",
+        thumbnails: []
+      };
+      const response = await requester.post('/api/products/withimage')
+      .field('title', mockProduct.title)
+      .field('description', mockProduct.description)
+      .field('price',mockProduct.price)
+      .field('code',mockProduct.code)
+      .field('stock',mockProduct.stock)
+      .field('category',mockProduct.category)
+      .attach('thumbnails', './test/avatar.png') //mandar archivos
+      expect(response._body.payload).to.have.property('_id');
+    })
   })
 })

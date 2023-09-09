@@ -1,12 +1,14 @@
 import { Router } from "express";
 import productsController from "../controllers/products.controller.js";
 import { authRoles, passportCall } from "../services/auth.js";
+import uploader from "../services/uploader.js";
 
 const router = Router();
 
 /* MongoDB */
 router.get('/', productsController.getProducts);
 router.post('/', passportCall('jwt', { strategyType: 'jwt', sessions: false }), authRoles(["admin", "premium"]), productsController.addProduct);
+router.post('/withimage',uploader.single('thumbnails'), productsController.createProductWithImage);
 router.get('/:pId', productsController.getProductById);
 router.put('/:pId', passportCall('jwt', { strategyType: 'jwt', sessions: false }), authRoles(["admin", "premium"]), productsController.updateProduct)
 router.delete('/:pId', passportCall('jwt', { strategyType: 'jwt', sessions: false }), authRoles(["admin", "premium"]), productsController.deleteProduct);

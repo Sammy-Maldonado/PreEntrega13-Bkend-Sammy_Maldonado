@@ -1,5 +1,6 @@
 import { productsService } from "../services/index.js";
 import ProductsDTO from "../dtos/product/ProductsDTO.js";
+import __dirname from "../utils.js";
 
 const getProducts = async (req, res) => {
   try {
@@ -116,10 +117,30 @@ const deleteProduct = async (req, res) => {
   }
 }
 
+const createProductWithImage = async(req,res) => {
+  const file = req.file;
+  const {title, description, price, code, stock, category, thumbnails} = req.body;
+  if(!title || !description || !price || !code || !stock || !category || thumbnails) return res.status(400).send({status:"error",error:"Incomplete values"})
+  console.log(file);
+  const product = {
+    title,
+    description,
+    price,
+    code,
+    stock,
+    category,
+    thumbnails:[`${__dirname}/public/images/${file.filename}`]
+  };
+  console.log(product);
+  const result = await productsService.createProduct(product);
+  res.send({status:"success", payload:result})
+}
+
 export default {
   getProducts,
   addProduct,
   getProductById,
   updateProduct,
-  deleteProduct
+  deleteProduct,
+  createProductWithImage
 }
